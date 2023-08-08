@@ -1,9 +1,12 @@
+#!/usr/bin/python3
+
 """
 base_model module
 Contains the BaseModel class
 """
 import uuid
 from datetime import datetime
+
 
 class BaseModel:
     """
@@ -13,29 +16,22 @@ class BaseModel:
     Attributes:
         id (str): The unique identifier of the BaseModel instance
             generated with uuid4
-        created_at (datetime): The date and time when the object was created
+        created_at (datetime): The date and time when the object was created 
         updated_at (datetime): The date and time when the object was modified
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        """Initializes instance attributes
+
+        Args:
+            *args: list of arguments
+            **kwargs: dict of key-values arguments
+        """
+            self.id = str(uuid.uuid4())
 
     def __str__(self):
         """
-        Returns a string representation of the BaseModel instance
+        Returns official string representation of the BaseModel instance
         """
-        pass
-
-    def __save_(self):
-        """
-        Updates the instance attribute `updated_at` with the current
-        datetime
-        """
-        pass
-
-    def to_dict(self):
-        """
-        Returns a dictionary containing all keys/values of __dict__ of the
-        BaseModel instance, including the class.
-        """
-        pass
+        Class_Name = self.__class__.__name__
+        return "[{}] ({}) {}".format(Class_Name, self.id, self.__dict__)
