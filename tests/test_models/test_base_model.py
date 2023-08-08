@@ -11,6 +11,6 @@ class TestBaseModel(unittest.TestCase):
     """
 
     def test_BaseModel(self):
-        """ Tests the instantiation of a BaseModel instance
+        """ Tests the instantation of a BaseModel instance
         """
         pass
