@@ -22,9 +22,9 @@ class TestBaseModel(unittest.TestCase):
         """
         self.assertIsInstance(self.b1, BaseModel)
         self.assertIsInstance(self.b2, BaseModel)
-        # self.assertIsInstance(self.b1.id, str)
-        # self.assertIsInstance(self.b2.id, str)
-        # self.assertNotEqual(self.b1.id, self.b2.id)
+        self.assertIsInstance(self.b1.id, str)
+        self.assertIsInstance(self.b2.id, str)
+        self.assertNotEqual(self.b1.id, self.b2.id)
         self.assertIsInstance(self.b1.created_at, str)
         self.assertIsInstance(self.b1.updated_at, str)
         self.assertEqual(self.b1.created_at, self.b1.updated_at)
