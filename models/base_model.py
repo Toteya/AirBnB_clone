@@ -6,6 +6,7 @@ Contains the BaseModel class
 """
 import uuid
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -43,6 +44,7 @@ class BaseModel:
         Updates the date and time that the instance was modified
         """
         self.updated_at = datetime.today()
+        storage.save()
 
     def to_dict(self):
         """
