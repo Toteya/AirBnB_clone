@@ -5,6 +5,7 @@ Contains the BaseModel class
 import uuid
 from datetime import datetime
 
+
 class BaseModel:
     """
     BaseModel class
@@ -18,7 +19,8 @@ class BaseModel:
     """
 
     def __init__(self):
-        pass
+        self.save()
+        self.created_at = self.updated_at
 
     def __str__(self):
         """
@@ -26,16 +28,17 @@ class BaseModel:
         """
         pass
 
-    def __save_(self):
+    def save(self):
         """
-        Updates the instance attribute `updated_at` with the current
-        datetime
+        Updates the date and time that the instance was modified
         """
-        pass
+        self.updated_at = str(datetime.isoformat(datetime.today()))
 
     def to_dict(self):
         """
         Returns a dictionary containing all keys/values of __dict__ of the
         BaseModel instance, including the class.
         """
-        pass
+        bm_dict = self.__dict__
+        bm_dict['__class__'] = self.__class__
+        return bm_dict
