@@ -28,8 +28,8 @@ class BaseModel:
             **kwargs: dict of key-values arguments
         """
         self.id = str(uuid.uuid4())
+        self.created_at = datetime.today()
         self.save()
-        self.created_at = self.updated_at
 
     def __str__(self):
         """
@@ -42,7 +42,7 @@ class BaseModel:
         """
         Updates the date and time that the instance was modified
         """
-        self.updated_at = str(datetime.isoformat(datetime.today()))
+        self.updated_at = datetime.today()
 
     def to_dict(self):
         """
@@ -50,5 +50,7 @@ class BaseModel:
         BaseModel instance, including the class.
         """
         bm_dict = self.__dict__
-        bm_dict['__class__'] = self.__class__
+        bm_dict['__class__'] = self.__class__.__name__
+        bm_dict['created_at'] = datetime.isoformat(bm_dict['created_at'])
+        bm_dict['updated_at'] = datetime.isoformat(bm_dict['updated_at'])
         return bm_dict
