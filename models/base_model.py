@@ -27,7 +27,18 @@ class BaseModel:
             *args: list of arguments
             **kwargs: dict of key-values arguments
         """
+            Time_form = "%Y-%m-%dT%H:%M:%S.%f"
+
+        if len(kwargs) != 0:
+            for key, value in kwargs.items():
+                if key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(value, Time_form)
+                else:
+                    self.__dict__[key] = value
+        else:
             self.id = str(uuid.uuid4())
+            self.created_at = datetime.today()
+            self.updated_at = datetime.today()
 
     def __str__(self):
         """
