@@ -28,9 +28,23 @@ class BaseModel:
             *args: list of arguments
             **kwargs: dict of key-values arguments
         """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.today()
-        self.save()
+        time_form = "%Y-%m-%dT%H:%M:%S.%f"
+
+        if len(kwargs) != 0:
+            for key, value in kwargs.items():
+                if key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(value, time_form)
+                else:
+                    self.__dict__[key] = value
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.today()
+            self.updated_at = datetime.today()
+            storage.new(self)
+        
+        # self.id = str(uuid.uuid4())
+        # self.created_at = datetime.today()
+        # self.save()
 
     def __str__(self):
         """
@@ -51,8 +65,8 @@ class BaseModel:
         Returns a dictionary containing all keys/values of __dict__ of the
         BaseModel instance, including the class.
         """
-        bm_dict = self.__dict__
+        bm_dict = self.__dict__.copy()
         bm_dict['__class__'] = self.__class__.__name__
-        bm_dict['created_at'] = datetime.isoformat(bm_dict['created_at'])
-        bm_dict['updated_at'] = datetime.isoformat(bm_dict['updated_at'])
+        bm_dict['created_at'] = datetime.isoformat(self.created_at)
+        bm_dict['updated_at'] = datetime.isoformat(self.updated_at)
         return bm_dict

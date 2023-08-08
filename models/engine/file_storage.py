@@ -3,7 +3,7 @@ file_storage module
 Contains the FileStorage class
 """
 import json
-
+# import models.base_model
 
 class FileStorage:
     """
@@ -16,6 +16,8 @@ class FileStorage:
     """
 
     __file_path = "file.json"
+    __objects = {}
+
 
     def all(self):
         """ Returns the dictionary `__objects`
@@ -32,17 +34,22 @@ class FileStorage:
     def save(self):
         """ Serializes __objects to the JSON file (path: __file_path)
         """
-        # if not self.__objects:
-        #    return
         with open(self.__file_path, "w", encoding="utf-8") as file:
-            json.dump(self.__objects, file)
+            objs = []
+            for key, value in self.__objects.items():
+                objs.append(value.to_dict())
+            json.dump(objs, file)
 
     def reload(self):
         """ Deserializes the JSON file to __objects if the JSON
         file (__file_path) exits.
         """
+        objs = []
         try:
             with open(self.__file_path, "r", encoding="utf-8") as file:
-                self.__objects = json.load(file)
+                objs = json.load(file)
         except FileNotFoundError:
             pass
+
+        # for obj in objs:
+        #    base_model.BaseModel(obj)
