@@ -17,7 +17,7 @@ class BaseModel:
         id (str): The unique identifier of the BaseModel instance
             generated with uuid4
         created_at (datetime): The date and time when the object was created 
-        updated_at (datetime): The date and time when the object was modified
+        updated_at (datetime): The date and time when the object was
     """
 
     def __init__(self, *args, **kwargs):
