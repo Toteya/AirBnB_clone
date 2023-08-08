@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 import re
 from datetime import datetime
 
+
 class TestBaseModel(unittest.TestCase):
     """ Tests the BaseModel class
     """
@@ -30,11 +31,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.b1.updated_at, datetime)
         self.assertNotEqual(self.b1.created_at, self.b1.updated_at)
 
-
     def test_str(self):
         """ Tests the method __str__ that returns the string representation
         of the BaseModel instance
         """
+        str1 = str(self.b1)
+        exp_str = "[BaseModel] ({}) {}".format(self.b1.id, self.b1.__dict__)
+        self.assertEqual(exp_str, str1)
         pass
 
     def test_to_dict(self):
@@ -45,9 +48,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(dict1, dict)
         self.assertEqual(dict1.get('__class__'), 'BaseModel')
 
-        format_match = re.search("^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
-                                 dict1['updated_at'])
-        self.assertIsNotNone(format_match)
-        format_match = re.search("^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
-                                 dict1['created_at'])
+        fmt_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
+                              dict1['updated_at'])
+        self.assertIsNotNone(fmt_match)
+        fmt_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
+                              dict1['created_at'])
         self.assertIsNotNone(format_match)
