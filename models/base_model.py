@@ -17,7 +17,7 @@ class BaseModel:
     Attributes:
         id (str): The unique identifier of the BaseModel instance
             generated with uuid4
-        created_at (datetime): The date and time when the object was created 
+        created_at (datetime): The date and time when the object was created
         updated_at (datetime): The date and time when the object was modified
     """
 
@@ -41,10 +41,6 @@ class BaseModel:
             self.created_at = datetime.today()
             self.updated_at = datetime.today()
             storage.new(self)
-        
-        # self.id = str(uuid.uuid4())
-        # self.created_at = datetime.today()
-        # self.save()
 
     def __str__(self):
         """
