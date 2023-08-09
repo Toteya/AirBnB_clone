@@ -52,4 +52,4 @@ class FileStorage:
             pass
 
         for obj in objs:
-            bm.BaseModel(obj)
+            bm.BaseModel(**obj)
