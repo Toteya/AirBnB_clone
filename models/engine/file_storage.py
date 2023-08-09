@@ -33,23 +33,25 @@ class FileStorage:
     def save(self):
         """ Serializes __objects to the JSON file (path: __file_path)
         """
+        json_dict = {}
+        for key, value in self.__objects.items():
+            json_dict[key] = value.to_dict()
+
         with open(self.__file_path, "w", encoding="utf-8") as file:
-            objs = []
-            for key, value in self.__objects.items():
-                objs.append(value.to_dict())
-            json.dump(objs, file)
+            json.dump(json_dict, file)
 
     def reload(self):
         """ Deserializes the JSON file to __objects if the JSON
         file (__file_path) exits.
         """
         import models.base_model as bm
-        objs = []
+
+        json_dict = {}
         try:
             with open(self.__file_path, "r", encoding="utf-8") as file:
-                objs = json.load(file)
+                json_dict = json.load(file)
         except FileNotFoundError:
             pass
 
-        for obj in objs:
-            bm.BaseModel(**obj)
+        for obj in json_dict.values():
+            self.new(bm.BaseModel(**obj))
