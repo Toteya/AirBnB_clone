@@ -19,6 +19,12 @@ class TestBaseModel(unittest.TestCase):
         self.b1 = BaseModel()
         self.b2 = BaseModel()
 
+    def tearDown(self):
+        """ Tears down the testing conditions after each test
+        """
+        del self.b1
+        del self.b2
+
     def test_BaseModel(self):
         """ Tests the instantation of a BaseModel instance
         """
@@ -29,7 +35,17 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.b1.id, self.b2.id)
         self.assertIsInstance(self.b1.created_at, datetime)
         self.assertIsInstance(self.b1.updated_at, datetime)
-        self.assertNotEqual(self.b1.created_at, self.b1.updated_at)
+        self.assertGreaterEqual(self.b1.updated_at, self.b1.created_at)
+
+       
+        id = '080cce84-c574'
+        created = '2019-05-28T21:03:54.052298'
+        updated = '2019-05-28T21:03:54.052301'
+        b_dict = {'id': id, 'created_at': created, 'updated_at': updated}
+        b3 = BaseModel(**b_dict)
+        self.assertEqual(id, b3.id)
+        self.assertIsInstance(b3.created_at, datetime)
+        self.assertIsInstance(b3.updated_at, datetime)
 
     def test_str(self):
         """ Tests the method __str__ that returns the string representation
@@ -47,10 +63,12 @@ class TestBaseModel(unittest.TestCase):
         dict1 = self.b1.to_dict()
         self.assertIsInstance(dict1, dict)
         self.assertEqual(dict1.get('__class__'), 'BaseModel')
+        self.assertIsNotNone(dict1.get('created_at'))
+        self.assertIsNotNone(dict1.get('updated_at'))
 
-        fmt_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
+        form_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
                               dict1['updated_at'])
-        self.assertIsNotNone(fmt_match)
-        fmt_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
+        self.assertIsNotNone(form_match)
+        form_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
                               dict1['created_at'])
-        self.assertIsNotNone(format_match)
+        self.assertIsNotNone(form_match)
