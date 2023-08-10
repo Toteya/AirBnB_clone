@@ -21,13 +21,13 @@ class TestFileStorage(unittest.TestCase):
         __objects, a dictionary that store all objects
         """
         pass
-    
+
     def test_new(self):
         """ Tests the new() method that sets in __objects an obj with
         the correct key based on the obj's class and its id
         """
         pass
-    
+
     def test_save(self):
         """ Tests the method that serializes __objects dictionary to a JSON
         file
