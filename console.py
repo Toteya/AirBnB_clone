@@ -18,6 +18,11 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     classes = ['BaseModel']
 
+    def __init__(self):
+        super().__init__()
+        if not sys.stdin.isatty():
+            self.prompt += '\n'
+
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
         name. If no class name is provided all instances of all classes are
