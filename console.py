@@ -34,12 +34,12 @@ class HBNBCommand(cmd.Cmd):
             print(str_objs)
 
     def help_all(self):
-        help_str = "\n".join(["Prints a string representation of all "+
-                              "instancesbased on the class",
-                              "If no class name is provided all instances "+
+        help_str = "\n".join(["USAGE: all [<class name>]",
+                              "Prints a string representation of all " +
+                              "instances based on the class name",
+                              "If no class name is provided all instances " +
                               "of all classes are printed."])
         print(help_str)
-
 
     def do_create(self, class_name):
         """ Creates a new instance of BaseModel, saves it the file,
@@ -55,7 +55,8 @@ class HBNBCommand(cmd.Cmd):
             print(bm.id)
 
     def help_create(self):
-        help_str = "\n".join(["Creates a new instance of BaseModel, "+
+        help_str = "\n".join(["USAGE: create <class name>",
+                              "Creates a new instance of BaseModel, " +
                               "saves it to the file, and prints its id"])
         print(help_str)
 
@@ -66,10 +67,11 @@ class HBNBCommand(cmd.Cmd):
         obj_id = ""
 
         args = line.split()
-        if args:
+        try:
             class_name = args[0]
-        if len(args) > 1:
             obj_id = args[1]
+        except IndexError:
+            pass
 
         if not class_name:
             print("** class name missing **")
@@ -85,8 +87,10 @@ class HBNBCommand(cmd.Cmd):
             del obj
             models.storage.save()
 
-    def help_destroy():
-        help_str = "Deletes an instance based on the class name and the id"
+    def help_destroy(self):
+        help_str = "\n".join(["USAGE: destroy <class name> <id>",
+                              "Deletes an instance based on the class name " +
+                              "and the id"])
         print(help_str)
 
     def do_EOF(self, line):
@@ -115,10 +119,11 @@ class HBNBCommand(cmd.Cmd):
         obj_id = ""
 
         args = line.split()
-        if args:
+        try:
             class_name = args[0]
-        if len(args) > 1:
             obj_id = args[1]
+        except IndexError:
+            pass
 
         if not class_name:
             print("** class name missing **")
@@ -133,9 +138,9 @@ class HBNBCommand(cmd.Cmd):
             print(obj)
 
     def help_show(self):
-        help_str = "\n".join(['Prints the string reprensation of an instance '+
-                              'based on the class name and the id',
-                              'Usage: show <class name> <id>]'])
+        help_str = "\n".join(["USAGE: show <class name> <id>",
+                              "Prints the string reprensation of an instance" +
+                              " based on the class name and the id"])
         print(help_str)
 
     def do_update(self, line):
@@ -147,7 +152,9 @@ class HBNBCommand(cmd.Cmd):
         attr_name = ""
         attr_value = ""
 
-        args = line.split()
+        line = line.split('"')
+        args = line[0].split()
+        args.extend(line[1:])
         try:
             class_name = args[0]
             obj_id = args[1]
@@ -170,10 +177,23 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             obj = models.storage.all()[f'{class_name}.{obj_id}']
-            if hasattr(obj, attr_name):
+
+            # cast attribute value to either an int, float or str
+            if attr_value.isnumeric():
+                setattr(obj, attr_name, int(attr_value))
+            elif len(attr_value.split('.')) == 2:
+                if all(part.isnumeric() for part in attr_value.split('.')):
+                    setattr(obj, attr_name, float(attr_value))
+            else:
                 setattr(obj, attr_name, attr_value)
 
     def help_update(self):
+        help_str = "\n".join(['USAGE: update <class name> <id> ' +
+                              '<attribute name> "<attribute value>"',
+                              'Updates an instance based on the class name ' +
+                              'and id by adding or updating the attribute, ',
+                              'and saves the change to the file.'])
+        print(help_str)
         pass
 
 
