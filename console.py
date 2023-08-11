@@ -8,6 +8,7 @@ import cmd
 import sys
 import models
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -16,7 +17,10 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = '(hbnb) '
-    classes = ['BaseModel']
+    classes = {
+            'BaseModel': BaseModel,
+            'User': User
+        }
 
     def __init__(self):
         super().__init__()
@@ -39,11 +43,11 @@ class HBNBCommand(cmd.Cmd):
             print(str_objs)
 
     def help_all(self):
-        help_str = "\n".join(["USAGE: all [<class name>]",
-                              "Prints a string representation of all " +
-                              "instances based on the class name",
-                              "If no class name is provided all instances " +
-                              "of all classes are printed."])
+        help_str = "\n".join(['USAGE: all [<class name>]',
+                              'Prints a string representation of all ' +
+                              'instances based on the class name',
+                              'If no class name is provided all instances ' +
+                              'of all classes are printed.'])
         print(help_str)
 
     def do_create(self, class_name):
@@ -55,9 +59,9 @@ class HBNBCommand(cmd.Cmd):
         elif class_name not in self.classes:
             print("** class doesn't exist **")
         else:
-            bm = BaseModel()
-            bm.save()
-            print(bm.id)
+            obj = self.classes[class_name]()
+            obj.save()
+            print(obj.id)
 
     def help_create(self):
         help_str = "\n".join(["USAGE: create <class name>",
