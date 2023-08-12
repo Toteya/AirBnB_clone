@@ -31,12 +31,6 @@ class HBNBCommand(cmd.Cmd):
             'Place': Place,
             'Review': Review
         }
-    """
-    def __init__(self):
-        super().__init__()
-        if not sys.stdin.isatty():
-            self.prompt = self.prompt[:-1] + '\n'
-    """
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
@@ -125,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, line):
         """Exits the programm
         """
-        pass
+        return True
 
     def help_quit(self):
         help_str = "Exits the program"
