@@ -20,7 +20,7 @@ class TestUser(TestCase):
         """ Tests the instantiation of a User instance
         """
         user1 = User()
-        
+
         self.assertIsInstance(user1.id, str)
         self.assertIsNotNone(user1.created_at)
         self.assertIsNotNone(user1.updated_at)

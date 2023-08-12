@@ -7,6 +7,7 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 
+
 class TestFileStorage(unittest.TestCase):
     """
     Contain unittests for the FileStorage class
@@ -15,17 +16,17 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         """ Sets up the test initial conditions
         """
-        #b1 = BaseModel()
+        # b1 = BaseModel()
         pass
 
     def test_all(self):
         """ Tests the all() method that returns the private attribute
         __objects, a dictionary that store all objects
         """
-        #self.assertIsNotNone(storage.all())
-        #self.assertEqual(1, len(storage.all()))
-        #b2 = BaseModel()
-        #self.assertEqual(2, len(storage.all()))
+        # self.assertIsNotNone(storage.all())
+        # self.assertEqual(1, len(storage.all()))
+        # b2 = BaseModel()
+        # self.assertEqual(2, len(storage.all()))
         pass
 
     def test_new(self):

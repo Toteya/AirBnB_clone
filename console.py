@@ -24,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     classes = {
             'BaseModel': BaseModel,
-            'User': User
+            'User': User,
             'State': State,
             'City': City,
             'Amenity': Amenity,
@@ -196,7 +196,6 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
         else:
             obj = models.storage.all()[f'{class_name}.{obj_id}']
-
             # cast attribute value to either an int, float or str
             if attr_value.isnumeric():
                 setattr(obj, attr_name, int(attr_value))

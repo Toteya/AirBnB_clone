@@ -14,4 +14,4 @@ class Review(BaseModel):
     def __init__(self, *args, **kwargs):
         self.place_id = ""
         self.user_id = ""
-        supr().(**kwargs)
+        super().__init__(**kwargs)

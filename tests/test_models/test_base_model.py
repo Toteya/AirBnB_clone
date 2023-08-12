@@ -37,7 +37,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.b1.updated_at, datetime)
         self.assertGreaterEqual(self.b1.updated_at, self.b1.created_at)
 
-       
         id = '080cce84-c574'
         created = '2019-05-28T21:03:54.052298'
         updated = '2019-05-28T21:03:54.052301'
@@ -67,8 +66,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(dict1.get('updated_at'))
 
         form_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
-                              dict1['updated_at'])
+                               dict1['updated_at'])
         self.assertIsNotNone(form_match)
         form_match = re.search(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}$",
-                              dict1['created_at'])
+                               dict1['created_at'])
         self.assertIsNotNone(form_match)
