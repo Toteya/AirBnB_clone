@@ -42,8 +42,6 @@ class TestUser(TestCase):
             }
         user2 = User(**dict2)
         self.assertEqual(user2.id, 'cac66cd4-bd96-4161-b54a-a208e2d59534')
-        # self.assertEqual(user2.created_at, '2019-05-28T21:03:54.052298')
-        # self.assertEqual(user2.updated_at, '2019-05-28T21:03:54.052301')
         self.assertEqual(user2.email, 'gigi@kmail.na')
         self.assertEqual(user2.first_name, 'Hagrid')
         self.assertEqual(user2.last_name, "")

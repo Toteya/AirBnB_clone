@@ -10,8 +10,8 @@ class State(BaseModel):
     """
     A state/region
     Inherits from BaseModel
-    """
 
-    def __init__(self, **kwargs):
-        self.name = ""
-        super().__init__(**kwargs)
+    Attributes:
+        name (str): The of the state where the place is located
+    """
+    name = ""

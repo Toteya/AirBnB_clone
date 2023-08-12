@@ -10,9 +10,11 @@ class City(BaseModel):
     """
     A city
     Inherits from BaseModel class
+
+    Attributes:
+        state_id (str): The unique id of the State in which the city is.
+        name (str): The name of the city
     """
 
-    def __init__(self, *args, **kwargs):
-        self.id = ""
-        self.name = ""
-        super().__init__(**kwargs)
+    id = ""
+    name = ""

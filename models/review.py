@@ -7,11 +7,15 @@ from models.base_model import BaseModel
 
 class Review(BaseModel):
     """
-    defines a user review
+    A user/guest review
     Inherits from BaseModel
-    """
 
-    def __init__(self, *args, **kwargs):
-        self.place_id = ""
-        self.user_id = ""
-        super().__init__(**kwargs)
+    Attributes:
+        place_id (str): The unique id of the place being reviewd
+        user_id (str): The unique id of the user doing the review
+        text (str): The contents/body of the review
+    """
+    
+    place_id = ""
+    user_id = ""
+    text = ""
