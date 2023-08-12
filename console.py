@@ -24,6 +24,31 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
+
+    def default(self, line):
+        """Catch commands if nothing else matches then."""  
+        self._precmd(line)
+
+    def _precmd(self, line):
+        """Intercepts commands to test for class.method(args)"""
+        match = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
+        if not match:
+            return line
+        classname = match.group(1)
+        method = match.group(2)
+        args = match.group(3)
+
+        # Create the full command using do_<method>
+        full_command = "do_" + method.lower()
+
+        # Check if the method exists in the class
+        if hasattr(self, full_command):
+            # If method exists, execute the command
+            command = f"{classname} {args}"
+            self.onecmd(command)
+        else:
+            print(f"** Unknown command: {method} **")
+
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
@@ -116,6 +141,7 @@ class HBNBCommand(cmd.Cmd):
                 instance = objects[key]
                 setattr(instance, args[2], args[3])
                 instance.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
