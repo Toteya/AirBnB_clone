@@ -31,11 +31,12 @@ class HBNBCommand(cmd.Cmd):
             'Place': Place,
             'Review': Review
         }
-
+    """
     def __init__(self):
         super().__init__()
         if not sys.stdin.isatty():
             self.prompt = self.prompt[:-1] + '\n'
+    """
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
