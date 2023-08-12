@@ -47,6 +47,8 @@ class TestUser(TestCase):
         self.assertEqual(user2.email, 'gigi@kmail.na')
         self.assertEqual(user2.first_name, 'Hagrid')
         self.assertEqual(user2.last_name, "")
+        self.assertEqual(user2.to_dict()['email'], 'gigi@kmail.na')
+        self.assertEqual(user2.to_dict()['first_name'], 'Hagrid')
         self.assertNotIn('last_name', user2.to_dict())
 
     def test_str(self):
