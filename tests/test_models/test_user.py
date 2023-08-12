@@ -32,3 +32,9 @@ class TestUser(TestCase):
 
         user2 = User(**user1.to_dict())
         self.assertEqual(user1.id, user2.id)
+
+    def test_str(self):
+        """ Tests the string representation of a User instance
+        """
+        pass
+
