@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
     def __init__(self):
         super().__init__()
         if not sys.stdin.isatty():
-            self.prompt += '\n'
+            self.prompt = self.prompt[:-1] + '\n'
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
