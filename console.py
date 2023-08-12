@@ -106,11 +106,14 @@ class HBNBCommand(cmd.Cmd):
                               "Deletes an instance based on the class name " +
                               "and the id"])
         print(help_str)
+    
+    def emptyline(self):
+        """Do nothing on empty line"""
+        pass
 
     def do_EOF(self, line):
         """Exits the programm
         """
-        print()
         return True
 
     def help_EOF(self):
