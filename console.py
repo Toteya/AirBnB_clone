@@ -56,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
         print(help_str)
 
     def do_create(self, class_name):
-        """ Creates a new instance of BaseModel, saves it the file,
+        """ Creates a new instance of the given class, saves it the file,
         and prints its id
         """
         if not class_name:
@@ -106,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
                               "Deletes an instance based on the class name " +
                               "and the id"])
         print(help_str)
-    
+
     def emptyline(self):
         """Do nothing on empty line"""
         pass

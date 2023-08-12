@@ -14,7 +14,7 @@ class TestUser(TestCase):
     def setUp(self):
         """ Sets up the initial conditions for each test case
         """
-        self.user1 = User();
+        self.user1 = User()
 
     def tearDown(self):
         """ Tears down tests conditions and objects after each test

@@ -15,7 +15,7 @@ class Review(BaseModel):
         user_id (str): The unique id of the user doing the review
         text (str): The contents/body of the review
     """
-    
+
     place_id = ""
     user_id = ""
     text = ""
