@@ -41,7 +41,8 @@ class HBNBCommand(cmd.Cmd):
         if match_cmd:
             class_name = match_cmd.group(1)
             method = match_cmd.group(2)
-            args = "".join(re.split(r',|"', match_cmd.group(3)))
+            args = match_cmd.group(3)
+            args = "".join(re.split(r',|\'|"|:|{|}', args))
             if class_name in self.classes and hasattr(self, f'do_{method}'):
                 self._precmd(method, class_name, args)
                 return
@@ -241,13 +242,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             obj = models.storage.all()[f'{class_name}.{obj_id}']
             # cast attribute value to either an int, float or str
-            if attr_value.isnumeric():
+            if hasattr(obj, attr_name):
+                a_type = type(getattr(obj, attr_name))
+                setattr(obj, attr_name, a_type(attr_value))
+            elif attr_value.isnumeric():
                 setattr(obj, attr_name, int(attr_value))
             elif len(attr_value.split('.')) == 2:
                 if all(part.isnumeric() for part in attr_value.split('.')):
                     setattr(obj, attr_name, float(attr_value))
             else:
                 setattr(obj, attr_name, attr_value)
+            obj.save()
 
     def help_update(self):
         """Prints command help info"""
