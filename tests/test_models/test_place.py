@@ -41,14 +41,14 @@ class TestPlace(TestCase):
                 'name': 'Casa Shifidi',
                 'number_rooms': 8,
                 'number_bathrooms': 4,
-                'price_by_night': 235.85
+                'price_by_night': 235
             }
         place2 = Place(**dict2)
         self.assertEqual('3fb55af41bfba', place2.city_id)
         self.assertEqual("fb51b27ebcfb1", place2.user_id)
         self.assertIsInstance(place2.number_rooms, int)
         self.assertIsInstance(place2.number_bathrooms, int)
-        self.assertIsInstance(place2.price_by_night, float)
+        self.assertIsInstance(place2.price_by_night, int)
         self.assertNotIn('description', place2.to_dict())
         self.assertNotIn('latitude', place2.to_dict())
         self.assertNotIn('longitude', place2.to_dict())
