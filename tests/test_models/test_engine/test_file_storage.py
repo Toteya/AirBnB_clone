@@ -57,6 +57,14 @@ class TestFileStorage(TestCase):
         """ Tests the method that deserializes a JSON file to the
         __objects dictionary
         """
+        # Empty file
+        m_open = mock_open(read_data=None)
+        with patch('builtins.open', m_open):
+            self.assertEqual(0, len(storage.all()))
+            storage.reload()
+            self.assertEqual(0, len(storage.all()))
+
+        # File exists
         file_contents = "".join(['{"BaseModel.746522df25ff": ',
                                  '{"id": "746522df25ff", ',
                                  '"created_at": ',
@@ -73,3 +81,4 @@ class TestFileStorage(TestCase):
             obj = storage.all()['BaseModel.746522df25ff']
             self.assertIsInstance(obj, BaseModel)
             self.assertNotIsInstance(obj, User)
+

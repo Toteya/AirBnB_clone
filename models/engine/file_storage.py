@@ -66,7 +66,7 @@ class FileStorage:
         try:
             with open(self.__file_path, "r", encoding="utf-8") as file:
                 json_dict = json.load(file)
-        except FileNotFoundError:
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
             pass
 
         for obj in json_dict.values():
