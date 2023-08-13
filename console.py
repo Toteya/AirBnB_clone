@@ -114,6 +114,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, line):
         """Exits the programm
         """
+        print()
         return True
 
     def help_EOF(self):

@@ -81,4 +81,3 @@ class TestFileStorage(TestCase):
             obj = storage.all()['BaseModel.746522df25ff']
             self.assertIsInstance(obj, BaseModel)
             self.assertNotIsInstance(obj, User)
-
