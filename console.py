@@ -5,6 +5,7 @@ A console / command interpreter program for an Airbnb clone
 Entry point to the program
 """
 import cmd
+import re
 import sys
 import models
 from models.base_model import BaseModel
@@ -32,6 +33,28 @@ class HBNBCommand(cmd.Cmd):
             'Review': Review
         }
 
+    def default(self, line):
+        """Handles commands that do not match any of the defined methods
+        """
+        match_cmd = re.match(r"(^\w+)\.(\w+)\((.*)\)$", line)
+
+        if match_cmd:
+            class_name = match_cmd.group(1)
+            method = match_cmd.group(2)
+            args = "".join(re.split(r',|"', match_cmd.group(3)))
+            if class_name in self.classes and hasattr(self, f'do_{method}'):
+                self._precmd(method, class_name, args)
+                return
+        print(f"*** Unknown syntax: {line}")
+
+    def _precmd(self, method, class_name, args):
+        """ Executes a command based on the given method, class_name
+        and arguments
+        """
+        methods = ('all', 'count', 'destroy', 'show', 'update')
+        if method in methods:
+            self.onecmd(f"{method} {class_name} {args}")
+
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
         name. If no class name is provided all instances of all classes are
@@ -48,6 +71,7 @@ class HBNBCommand(cmd.Cmd):
             print(str_objs)
 
     def help_all(self):
+        """Prints command help info"""
         help_str = "\n".join(['USAGE: all [<class name>]',
                               'Prints a string representation of all ' +
                               'instances based on the class name',
@@ -69,9 +93,25 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
 
     def help_create(self):
+        """Prints command help info"""
         help_str = "\n".join(["USAGE: create <class name>",
                               "Creates a new instance of BaseModel, " +
                               "saves it to the file, and prints its id"])
+        print(help_str)
+
+    def do_count(self, class_name):
+        """ Prints the number of instances of the given class
+        """
+        number_objs = 0
+        if class_name and class_name in self.classes:
+            for obj in models.storage.all().values():
+                if obj.__class__.__name__ == class_name:
+                    number_objs += 1
+        print(number_objs)
+
+    def help_count(self):
+        """Prints command help info"""
+        help_str = "Prints the number of instances for a given class"
         print(help_str)
 
     def do_destroy(self, line):
@@ -102,6 +142,7 @@ class HBNBCommand(cmd.Cmd):
             models.storage.save()
 
     def help_destroy(self):
+        """Prints command help info"""
         help_str = "\n".join(["USAGE: destroy <class name> <id>",
                               "Deletes an instance based on the class name " +
                               "and the id"])
@@ -118,6 +159,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def help_EOF(self):
+        """Prints command help info"""
         help_str = "Exits the program"
         print(help_str)
 
@@ -127,6 +169,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def help_quit(self):
+        """Prints command help info"""
         help_str = "Exits the program"
         print(help_str)
 
@@ -157,6 +200,7 @@ class HBNBCommand(cmd.Cmd):
             print(obj)
 
     def help_show(self):
+        """Prints command help info"""
         help_str = "\n".join(["USAGE: show <class name> <id>",
                               "Prints the string reprensation of an instance" +
                               " based on the class name and the id"])
@@ -206,13 +250,13 @@ class HBNBCommand(cmd.Cmd):
                 setattr(obj, attr_name, attr_value)
 
     def help_update(self):
+        """Prints command help info"""
         help_str = "\n".join(['USAGE: update <class name> <id> ' +
                               '<attribute name> "<attribute value>"',
                               'Updates an instance based on the class name ' +
                               'and id by adding or updating the attribute, ',
                               'and saves the change to the file.'])
         print(help_str)
-        pass
 
 
 if __name__ == '__main__':
