@@ -32,7 +32,9 @@ class BaseModel:
 
         if len(kwargs) != 0:
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
+                if key == '__class__':
+                    pass
+                elif key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(value, time_form)
                 else:
                     self.__dict__[key] = value

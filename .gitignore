@@ -3,3 +3,6 @@ practice/
 */*/__pycache__
 *.swo
 *.swp
+*/*/*/__pycache__
+*.json
+*.sh

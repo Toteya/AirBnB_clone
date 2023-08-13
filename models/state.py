@@ -1,13 +1,17 @@
 #!/usr/bin/python3
-"""Module for state class"""
+"""
+state module
+Contains the State class
+"""
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """the state
+    """
+    A state/region
+    Inherits from BaseModel
 
     Attributes:
-        name (str): state's name       
+        name (str): The of the state where the place is located
     """
-
     name = ""

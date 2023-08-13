@@ -45,7 +45,23 @@ class FileStorage:
         """ Deserializes the JSON file to __objects if the JSON
         file (__file_path) exits.
         """
-        import models.base_model as bm
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+
+        classes = {
+                'BaseModel': BaseModel,
+                'User': User,
+                'State': State,
+                'City': City,
+                'Amenity': Amenity,
+                'Place': Place,
+                'Review': Review
+            }
 
         json_dict = {}
         try:
@@ -55,4 +71,4 @@ class FileStorage:
             pass
 
         for obj in json_dict.values():
-            self.new(bm.BaseModel(**obj))
+            self.new(classes[obj['__class__']](**obj))

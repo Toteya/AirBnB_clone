@@ -1,15 +1,19 @@
 #!/usr/bin/python3
-"""Module for review class"""
+"""
+The review module contains the Review class
+"""
 from models.base_model import BaseModel
 
 
 class Review(BaseModel):
-    """represent about the reviews     
+    """
+    A user/guest review
+    Inherits from BaseModel
 
     Attributes:
-        place_id (str): id of the place
-        user_id (str): User id.        
-        text (str): review text        
+        place_id (str): The unique id of the place being reviewd
+        user_id (str): The unique id of the user doing the review
+        text (str): The contents/body of the review
     """
 
     place_id = ""
