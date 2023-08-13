@@ -19,7 +19,7 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """
-    A command interpreter for an Airbnb clone
+    A command interpreter for an Airbnb clone HBNBCommand class
     """
 
     prompt = '(hbnb) '
