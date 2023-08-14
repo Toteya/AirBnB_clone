@@ -52,17 +52,28 @@ class HBNBCommand(cmd.Cmd):
         """ Executes a command based on the given method, class_name
         and arguments
         """
-        args.strip('{').strip('}')
-        args = "".join(re.split(r',', args))
 
-        # methods = ('all', 'count', 'destroy', 'show', 'update')
-        """
-        if method == 'update':
-            for arg in args.split(','):
-                self.onecmd(f"{method} {class_name} {args}")
-        elif method in methods:
-        """
-        self.onecmd(f"{method} {class_name} {args}")
+        if method == 'update' and re.search(r"\{.*\}", args):
+            split_args = re.split(r'{|}|,|:', args)
+            args = []
+            for arg in split_args:
+                if not all(ch == ' ' for ch in arg):
+                    args.append(arg.strip())
+
+            for i in range(1, len(args), 2):
+                str = args[0]
+                try:
+                    str += " " + args[i]
+                except IndexError:
+                    pass
+                try:
+                    str += " " + args[i + 1]
+                except IndexError:
+                    pass
+                self.onecmd(f"{method} {class_name} {str}")
+        else:
+            args = "".join(re.split(r'{|}|,|:', args))
+            self.onecmd(f"{method} {class_name} {args}")
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
