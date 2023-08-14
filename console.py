@@ -41,19 +41,28 @@ class HBNBCommand(cmd.Cmd):
         if match_cmd:
             class_name = match_cmd.group(1)
             method = match_cmd.group(2)
-            args = "".join(re.split(r',|"', match_cmd.group(3)))
+            args = match_cmd.group(3)
+            # args = "".join(re.split(r',|\'|"|:|{|}', args))
             if class_name in self.classes and hasattr(self, f'do_{method}'):
                 self._precmd(method, class_name, args)
                 return
-        print(f"*** Unknown syntax: {line}")
+        super().default(line)
 
     def _precmd(self, method, class_name, args):
         """ Executes a command based on the given method, class_name
         and arguments
         """
-        methods = ('all', 'count', 'destroy', 'show', 'update')
-        if method in methods:
-            self.onecmd(f"{method} {class_name} {args}")
+        args.strip('{').strip('}')
+        args = "".join(re.split(r',', args))
+
+        # methods = ('all', 'count', 'destroy', 'show', 'update')
+        """
+        if method == 'update':
+            for arg in args.split(','):
+                self.onecmd(f"{method} {class_name} {args}")
+        elif method in methods:
+        """
+        self.onecmd(f"{method} {class_name} {args}")
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
@@ -103,11 +112,15 @@ class HBNBCommand(cmd.Cmd):
         """ Prints the number of instances of the given class
         """
         number_objs = 0
-        if class_name and class_name in self.classes:
+        if not class_name:
+            print("** class name missing **")
+        elif class_name not in self.classes:
+            print("** class doesn't exist **")
+        else:
             for obj in models.storage.all().values():
                 if obj.__class__.__name__ == class_name:
                     number_objs += 1
-        print(number_objs)
+            print(number_objs)
 
     def help_count(self):
         """Prints command help info"""
@@ -215,9 +228,10 @@ class HBNBCommand(cmd.Cmd):
         attr_name = ""
         attr_value = ""
 
-        line = line.split('"')
-        args = line[0].split()
-        args.extend(line[1:])
+        # line = line.split('"')
+        # args = line[0].split()
+        # args.extend(line[1:])
+        args = self.parse_line(line)
         try:
             class_name = args[0]
             obj_id = args[1]
@@ -241,13 +255,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             obj = models.storage.all()[f'{class_name}.{obj_id}']
             # cast attribute value to either an int, float or str
-            if attr_value.isnumeric():
+            if hasattr(obj, attr_name):
+                a_type = type(getattr(obj, attr_name))
+                setattr(obj, attr_name, a_type(attr_value))
+            elif attr_value.isnumeric():
                 setattr(obj, attr_name, int(attr_value))
             elif len(attr_value.split('.')) == 2:
                 if all(part.isnumeric() for part in attr_value.split('.')):
                     setattr(obj, attr_name, float(attr_value))
             else:
                 setattr(obj, attr_name, attr_value)
+            obj.save()
 
     def help_update(self):
         """Prints command help info"""
@@ -257,6 +275,24 @@ class HBNBCommand(cmd.Cmd):
                               'and id by adding or updating the attribute, ',
                               'and saves the change to the file.'])
         print(help_str)
+
+    def parse_line(self, line):
+        """ Converts a string into a list of arguments.
+        Sub-strings in quotes are preserved as one argument
+        """
+        split_line = re.split(r'\'|"', line)
+        args = []
+        for arg in split_line:
+            if arg and not all(c == ' ' for c in arg):
+                args.append(arg.strip())
+
+        args_list = []
+        try:
+            args_list = args[0].split()
+            args_list.extend(args[1:])
+        except IndexError:
+            pass
+        return args_list
 
 
 if __name__ == '__main__':
