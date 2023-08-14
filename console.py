@@ -42,19 +42,27 @@ class HBNBCommand(cmd.Cmd):
             class_name = match_cmd.group(1)
             method = match_cmd.group(2)
             args = match_cmd.group(3)
-            args = "".join(re.split(r',|\'|"|:|{|}', args))
+            # args = "".join(re.split(r',|\'|"|:|{|}', args))
             if class_name in self.classes and hasattr(self, f'do_{method}'):
                 self._precmd(method, class_name, args)
                 return
-        print(f"*** Unknown syntax: {line}")
+        super().default(line)
 
     def _precmd(self, method, class_name, args):
         """ Executes a command based on the given method, class_name
         and arguments
         """
-        methods = ('all', 'count', 'destroy', 'show', 'update')
-        if method in methods:
-            self.onecmd(f"{method} {class_name} {args}")
+        args.strip('{').strip('}')
+        args = "".join(re.split(r',', args))
+
+        # methods = ('all', 'count', 'destroy', 'show', 'update')
+        """
+        if method == 'update':
+            for arg in args.split(','):
+                self.onecmd(f"{method} {class_name} {args}")
+        elif method in methods:
+        """
+        self.onecmd(f"{method} {class_name} {args}")
 
     def do_all(self, class_name):
         """ Prints a string representation of all instances based on the class
@@ -104,11 +112,15 @@ class HBNBCommand(cmd.Cmd):
         """ Prints the number of instances of the given class
         """
         number_objs = 0
-        if class_name and class_name in self.classes:
+        if not class_name:
+            print("** class name missing **")
+        elif class_name not in self.classes:
+            print("** class doesn't exist **")
+        else:
             for obj in models.storage.all().values():
                 if obj.__class__.__name__ == class_name:
                     number_objs += 1
-        print(number_objs)
+            print(number_objs)
 
     def help_count(self):
         """Prints command help info"""
@@ -216,9 +228,10 @@ class HBNBCommand(cmd.Cmd):
         attr_name = ""
         attr_value = ""
 
-        line = line.split('"')
-        args = line[0].split()
-        args.extend(line[1:])
+        # line = line.split('"')
+        # args = line[0].split()
+        # args.extend(line[1:])
+        args = self.parse_line(line)
         try:
             class_name = args[0]
             obj_id = args[1]
@@ -262,6 +275,24 @@ class HBNBCommand(cmd.Cmd):
                               'and id by adding or updating the attribute, ',
                               'and saves the change to the file.'])
         print(help_str)
+
+    def parse_line(self, line):
+        """ Converts a string into a list of arguments.
+        Sub-strings in quotes are preserved as one argument
+        """
+        split_line = re.split(r'\'|"', line)
+        args = []
+        for arg in split_line:
+            if arg and not all(c == ' ' for c in arg):
+                args.append(arg.strip())
+
+        args_list = []
+        try:
+            args_list = args[0].split()
+            args_list.extend(args[1:])
+        except IndexError:
+            pass
+        return args_list
 
 
 if __name__ == '__main__':

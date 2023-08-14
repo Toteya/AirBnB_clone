@@ -5,6 +5,7 @@ Tests the module file_storage
 """
 from unittest import TestCase
 from unittest.mock import mock_open, patch
+from models.engine.file_storage import FileStorage
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -18,7 +19,7 @@ class TestFileStorage(TestCase):
     def setUp(self):
         """ Sets up the test initial conditions
         """
-        storage._FileStorage__objects = {}
+        FileStorage._FileStorage__objects = {}
 
     def test_all(self):
         """ Tests the all() method that returns the private attribute
@@ -33,6 +34,8 @@ class TestFileStorage(TestCase):
         """ Tests the new() method that sets in __objects an obj with
         the correct key based on the obj's class and its id
         """
+        self.assertIs(storage.all(), FileStorage._FileStorage__objects)
+        self.assertEqual({}, FileStorage._FileStorage__objects)
         self.assertEqual(0, len(storage.all()))
 
         storage.new(BaseModel())

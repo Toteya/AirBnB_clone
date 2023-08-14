@@ -55,6 +55,16 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(exp_str, str1)
         pass
 
+    def test_save(self):
+        """ Tests method that saves the object and updates the datetime
+        attribute `updated_at`
+        """
+        created = self.b1.created_at
+        updated = self.b1.updated_at
+        self.b1.save()
+        self.assertNotEqual(self.b1.updated_at, updated)
+        self.assertGreater(self.b1.updated_at, created)
+
     def test_to_dict(self):
         """ Tests the to_dict method that returns dictionary of all the
         key/values of the BaseModel instance
