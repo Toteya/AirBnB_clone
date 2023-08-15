@@ -42,7 +42,6 @@ class HBNBCommand(cmd.Cmd):
             class_name = match_cmd.group(1)
             method = match_cmd.group(2)
             args = match_cmd.group(3)
-            # args = "".join(re.split(r',|\'|"|:|{|}', args))
             if class_name in self.classes and hasattr(self, f'do_{method}'):
                 self._precmd(method, class_name, args)
                 return
@@ -55,6 +54,9 @@ class HBNBCommand(cmd.Cmd):
 
         if method == 'update' and re.search(r"\{.*\}", args):
             split_args = re.split(r'{|}|,|:', args)
+
+            # args = [arg for arg in split_args if arg.strip()] USE THIS CODE!
+
             args = []
             for arg in split_args:
                 if not all(ch == ' ' for ch in arg):
