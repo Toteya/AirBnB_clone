@@ -1,4 +1,7 @@
 header {
+	display: flex;
+	/*justify-content: center;*/
+	align-items: center;
 	color: #FFFFFF;
 	height: 70px;
 	width: 100%;
@@ -6,6 +9,11 @@ header {
 }
 
 .logo {
-	float: left;
+	background-image: url("images/logo.png");
+	/*float: left;*/
+	/* border: 2px solid red; */
 	margin-left: 20px;
+	margin-bottom: 20px;
+	height: 50%;
+	width: 80px;
 }
