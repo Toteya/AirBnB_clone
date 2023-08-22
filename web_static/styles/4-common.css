@@ -1,13 +1,15 @@
 * {
 	margin: 0;
 	padding: 0;
+	color: #484848;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 p.footer_text {
 	text-align: center;
-	color: #484848;
+	/*color: #484848;*/
 	font-size: 14px;
-	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	/*font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;*/
 }
 
 .center {
